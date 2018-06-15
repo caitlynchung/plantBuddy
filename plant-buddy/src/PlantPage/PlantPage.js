@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PlantEntry from '../PlantEntry/PlantEntry.js';
+import AddPlantPage from '../AddPlantPage/AddPlantPage.js';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
 
@@ -10,9 +12,7 @@ class PlantPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            plantEntries: props.initialvalue,
-            //plantEntries: props.initialvalue
-            entryInput: ''
+            plantEntries: props.initialvalue
         };
     }
 
@@ -38,27 +38,6 @@ class PlantPage extends Component {
                     };
                 });
             })
-    }
-
-    onInputChange = (e) => {
-        e.preventDefault();
-        const newValue = e.target.value;
-        this.setState(() => {
-            return {
-                entryInput: newValue
-            };
-        })
-    }
-
-    addEntry = (e) => {
-        e.preventDefault();
-        database.ref(`users/${auth.currentUser.uid}`)
-            .push(this.state.entryInput);
-        this.setState(() => {
-            return {
-                entryInput: ''
-            };
-        })
     }
 
     onRemoveFromSummary = (idx) => {
@@ -94,10 +73,7 @@ class PlantPage extends Component {
         return (
             <div className="PlantSummary">
                 <this.SummaryDisplay/>
-                <form className="journal-form" onSubmit={this.addEntry}>
-                    <textarea onChange={this.onInputChange} value={this.state.entryInput} />
-                    <button type="submit">Add Plant</button>
-                </form>
+                <Link to="/add_plant">Add A Plant</Link>
             </div>
         )
     }
