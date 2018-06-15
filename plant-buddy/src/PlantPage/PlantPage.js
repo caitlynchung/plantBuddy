@@ -1,40 +1,70 @@
 import React, { Component } from 'react';
 import PlantEntry from '../PlantEntry/PlantEntry.js';
 import PropTypes from 'prop-types';
-//import firebase from 'firebase';
-//const auth = firebase.auth();
-//const database = firebase.database();
+import firebase from 'firebase';
+
+const auth = firebase.auth();
+const database = firebase.database();
 
 class PlantPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            plantEntries: props.initialvalue
+            plantEntries: props.initialvalue,
+            //plantEntries: props.initialvalue
+            entryInput: ''
         };
     }
 
-/*     componentDidMount() {
+     componentDidMount() {
         if (!auth.currentUser) {
             alert('Must be logged in to view plants');
             return this.props.history.push('/');
-        }
+        };
 
         auth.onAuthStateChanged((user) => {
             if (!user) {
                 this.props.history.push('/');
             }
         });
-    } */
+
+        // ref(path) returns a Reference representing the location in the Database
+        // corresponding to path (default is root)
+        database.ref(`users/${auth.currentUser.uid}`)
+            .on('value', (snapshot) => {
+                this.setState(() => {
+                    return {
+                        plantEntries: snapshot.val() || {}
+                    };
+                });
+            })
+    }
+
+    onInputChange = (e) => {
+        e.preventDefault();
+        const newValue = e.target.value;
+        this.setState(() => {
+            return {
+                entryInput: newValue
+            };
+        })
+    }
+
+    addEntry = (e) => {
+        e.preventDefault();
+        database.ref(`users/${auth.currentUser.uid}`)
+            .push(this.state.entryInput);
+        this.setState(() => {
+            return {
+                entryInput: ''
+            };
+        })
+    }
 
     onRemoveFromSummary = (idx) => {
         return () => {
             this.setState((prevState, props) => {
-              const newPlantEntries = prevState.plantEntries;
-              newPlantEntries.splice(idx, 1);
-              return {
-                  plantEntries: ''
-                //plantEntries: newplantEntries
-              };
+              database.ref(`users/${auth.currentUser.uid}`).child(idx).remove();
             });
         }
     }
@@ -45,13 +75,15 @@ class PlantPage extends Component {
         if (noPlantsInSummary) {
             return noPlantsMessage;
         }
-        const plantsInSummary = this.state.plantEntries.map((item, idx) => {
+
+        const plantsInSummary = Object.keys(this.state.plantEntries).map((key) => {
             return (
-                <div key={idx}>
-                    <PlantEntry
-                        plant={item}
-                        onRemoveFromSummary={this.onRemoveFromSummary(idx)}
-                    />
+                <div>
+                <PlantEntry 
+                    key={key}
+                    entry={this.state.plantEntries[key]}
+                    onRemoveFromSummary={this.onRemoveFromSummary(key)}
+                />
                 </div>
             );
         });
@@ -62,23 +94,21 @@ class PlantPage extends Component {
         return (
             <div className="PlantSummary">
                 <this.SummaryDisplay/>
-                {/*Add link here to add a plant*/}
+                <form className="journal-form" onSubmit={this.addEntry}>
+                    <textarea onChange={this.onInputChange} value={this.state.entryInput} />
+                    <button type="submit">Add Plant</button>
+                </form>
             </div>
         )
     }
 }
 
 PlantPage.propTypes = {
-    initialValue : PropTypes.array
+    initialValue : PropTypes.object
 }
 
 PlantPage.defaultProps = {
-    initialvalue : [
-        {name: "plant 1",
-         last_watered: "2018-01-01"},
-         {name: "plant 2",
-         last_watered: "2018-02-01"}
-    ]
+    initialvalue : {}
 }
 
 export default PlantPage;

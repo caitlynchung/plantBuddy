@@ -5,8 +5,7 @@ class PlantEntry extends Component {
     render() {
         return(
             <div className="PlantItem">
-                <p>Name: {this.props.plant.name}</p>
-                <p>Last Watered: {this.props.plant.last_watered}</p>
+                <p>Name: {this.props.entry}</p>
                 <button 
                     className="DeleteButton" 
                     onClick={
