@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
+import './AddPlantPage.css';
 
 const auth = firebase.auth();
 const database = firebase.database();
@@ -33,7 +34,7 @@ class AddPlantPage extends Component {
         const target = e.target;
         const value = target.value;
         const name = target.name;
-        console.log(target);
+        
         this.setState((prevState, props) => {
             const newEntryInput = prevState.entryInput;
             newEntryInput[name] = value;
@@ -45,6 +46,7 @@ class AddPlantPage extends Component {
 
     onAddToSummary = (e) => {
         e.preventDefault();
+        console.log(this.state.entryInput);
         database.ref(`users/${auth.currentUser.uid}`)
             .push(this.state.entryInput);
         this.setState(() => {
@@ -56,7 +58,7 @@ class AddPlantPage extends Component {
 
     render() {
         return (
-            <div>
+            <div className="AddPlantSubmission">
                <form onSubmit={this.onAddToSummary}>
                     <label>
                         Name of your plant:
@@ -76,6 +78,18 @@ class AddPlantPage extends Component {
                             value={this.state.entryInput.description}
                             onChange={this.onInputChange}
                             />
+                    </label>
+                    <br />
+                    <label>
+                        Type Of Plant:
+                        <select 
+                            name="plantType" 
+                            value={this.state.entryInput.type} 
+                            onChange={this.onInputChange}>
+                            <option value="none selected">Choose One:</option>
+                            <option value="fern">Fern</option>
+                            <option value="cactus">Cactus</option>
+                        </select>
                     </label>
                     <br />
                     <button type="submit">Add A Plant</button>

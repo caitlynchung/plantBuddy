@@ -58,7 +58,7 @@ class PlantPage extends Component {
 
         const plantsInSummary = Object.keys(this.state.plantEntries).map((key) => {
             return (
-                <div>
+                <div className="PlantEntryRow">
                 <PlantEntry 
                     key={key}
                     entry={this.state.plantEntries[key]}
@@ -75,8 +75,9 @@ class PlantPage extends Component {
         if (!noPlantsInSummary) {
             return (
                 <div className="SummaryDisplayHeader">
-                    <p>Name:</p>
-                    <p>Description: </p>
+                    <p>Picture</p>
+                    <p>Name</p>
+                    <p>Description</p>
                     <p>Delete?</p>
                 </div>
             );
@@ -86,7 +87,7 @@ class PlantPage extends Component {
     render() {
         return (
             <div className="PlantSummary">
-                <this.SummaryDisplayHeader/>
+                {/*<this.SummaryDisplayHeader/>*/}
                 <this.SummaryDisplay/>
                 <Link to="/add_plant">Add A Plant</Link>
             </div>

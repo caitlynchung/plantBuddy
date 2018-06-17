@@ -5,5 +5,12 @@
     flex-wrap: wrap;
     justify-content: space-around;
     border: 1px solid black;
-    align-items: baseline;
+    align-items: center;
+}
+
+.IndividualPlantIcon {
+    border-radius: 50%;
+    border: 1px solid black;
+    height: 30px;
+    width: 30px;
 }

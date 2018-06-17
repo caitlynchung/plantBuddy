@@ -7,7 +7,9 @@
     margin-left: 30px;
     margin-right: 30px;
 }
-
+.PlantEntryRow {
+    
+}
 .SummaryDisplayHeader {
     text-align: left;
     display: flex;
