@@ -12,6 +12,7 @@ class AddPlantPage extends Component {
             plantEntries: props.initialEntries,
             entryInput: props.initialInput
         };
+        this.onInputChange = this.onInputChange.bind(this);
     }
 
     componentDidMount() {
@@ -29,12 +30,17 @@ class AddPlantPage extends Component {
 
     onInputChange = (e) => {
         e.preventDefault();
-        const newValue = e.target.value;
-        this.setState(() => {
+        const target = e.target;
+        const value = target.value;
+        const name = target.name;
+        console.log(target);
+        this.setState((prevState, props) => {
+            const newEntryInput = prevState.entryInput;
+            newEntryInput[name] = value;
             return {
-                entryInput: newValue
-            };
-        })
+                entryInput: newEntryInput
+            }
+          });
     }
 
     onAddToSummary = (e) => {
@@ -43,7 +49,7 @@ class AddPlantPage extends Component {
             .push(this.state.entryInput);
         this.setState(() => {
             return {
-                entryInput: ''
+                entryInput: {}
             };
         })
     }
@@ -52,7 +58,26 @@ class AddPlantPage extends Component {
         return (
             <div>
                <form onSubmit={this.onAddToSummary}>
-                    <textarea onChange={this.onInputChange} value={this.state.entryInput} />
+                    <label>
+                        Name of your plant:
+                        <input
+                            name="plantName"
+                            type="string"
+                            value={this.state.entryInput.name}
+                            onChange={this.onInputChange}
+                            />
+                    </label>
+                    <br />
+                    <label>
+                        Description of your plant:
+                        <input
+                            name="plantDescription"
+                            type="string"
+                            value={this.state.entryInput.description}
+                            onChange={this.onInputChange}
+                            />
+                    </label>
+                    <br />
                     <button type="submit">Add A Plant</button>
                 </form> 
             </div>
@@ -62,12 +87,12 @@ class AddPlantPage extends Component {
 
 AddPlantPage.propTypes = {
     initialEntries : PropTypes.object,
-    initialInput : PropTypes.string
+    initialInput : PropTypes.object
 }
 
 AddPlantPage.defaultProps = {
     initialEntries : {},
-    initialInput : ''
+    initialInput : {}
 }
 
 export default AddPlantPage;

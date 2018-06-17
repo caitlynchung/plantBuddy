@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-//import './NavigationBar.css';
+import './NavigationBar.css';
 
 import firebase from 'firebase';
 
@@ -38,12 +38,12 @@ class NavigationBar extends Component {
 
     render() {
         return (
-            <ul className="navigation-bar">
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/plants">Check My Plants</Link></li>
-                {!this.state.isLoggedIn && <li><a href="#signin" onClick={this.signIn}>Sign In</a></li>}
-                {this.state.isLoggedIn && <li><a href="#signout" onClick={this.signOut}>Sign Out</a></li>}
-            </ul>
+            <div className="NavigationBar">
+                <div><Link to="/">Home</Link></div>
+                <div><Link to="/plants">Check My Plants</Link></div>
+                {!this.state.isLoggedIn && <div><a href="#signin" onClick={this.signIn}>Sign In</a></div>}
+                {this.state.isLoggedIn && <div><a href="#signout" onClick={this.signOut}>Sign Out</a></div>}
+            </div>
         );
     }
 }

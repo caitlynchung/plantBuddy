@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import './PlantEntry.css';
 
 class PlantEntry extends Component {
     render() {
         return(
             <div className="PlantItem">
-                <p>Name: {this.props.entry}</p>
+                <p>{this.props.entry.plantName}</p>
+                <p>{this.props.entry.plantDescription}</p>
                 <button 
                     className="DeleteButton" 
                     onClick={

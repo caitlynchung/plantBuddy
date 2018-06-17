@@ -4,6 +4,7 @@ import PlantEntry from '../PlantEntry/PlantEntry.js';
 import AddPlantPage from '../AddPlantPage/AddPlantPage.js';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
+import './PlantPage.css';
 
 const auth = firebase.auth();
 const database = firebase.database();
@@ -69,9 +70,23 @@ class PlantPage extends Component {
         return plantsInSummary;
     }
 
+    SummaryDisplayHeader = () => {
+        const noPlantsInSummary = (this.state.plantEntries.length===0);
+        if (!noPlantsInSummary) {
+            return (
+                <div className="SummaryDisplayHeader">
+                    <p>Name:</p>
+                    <p>Description: </p>
+                    <p>Delete?</p>
+                </div>
+            );
+        }
+    }
+
     render() {
         return (
             <div className="PlantSummary">
+                <this.SummaryDisplayHeader/>
                 <this.SummaryDisplay/>
                 <Link to="/add_plant">Add A Plant</Link>
             </div>

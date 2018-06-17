@@ -1,0 +1,19 @@
+.PlantSummary {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.SummaryDisplayHeader {
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-left: 30px;
+    margin-right: 30px;
+}

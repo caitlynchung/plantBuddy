@@ -1,0 +1,9 @@
+.PlantItem {
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    border: 1px solid black;
+    align-items: baseline;
+}
