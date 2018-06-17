@@ -48,7 +48,6 @@ class AddPlantPage extends Component {
     }
 
     onDateChange = (newDate) => {
-        console.log(newDate.format().slice(0,10));      
         this.setState((prevState) => {
             const newEntryInput = prevState.entryInput;
             newEntryInput["lastWaterDate"] = newDate;

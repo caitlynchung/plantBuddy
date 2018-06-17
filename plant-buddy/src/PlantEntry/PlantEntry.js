@@ -46,6 +46,13 @@ class PlantEntry extends Component {
                     }>
                     Remove Plant
                 </button>
+                <button 
+                    className="WateredTodayButton" 
+                    onClick={
+                        this.props.onClickWateredTodayButton
+                    }>
+                    Watered Today
+                </button>
             </div>
         );
     }

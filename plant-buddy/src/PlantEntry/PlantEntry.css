@@ -11,6 +11,11 @@
 .IndividualPlantIcon {
     border-radius: 50%;
     border: 1px solid black;
-    height: 30px;
-    width: 30px;
+    height: 40px;
+    width: 40px;
+}
+
+.WateringPlantIcon {
+    height: 40px;
+    width: 40px;
 }

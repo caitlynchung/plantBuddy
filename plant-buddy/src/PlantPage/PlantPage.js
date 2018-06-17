@@ -49,6 +49,16 @@ class PlantPage extends Component {
         }
     }
 
+    onClickWateredTodayButton = (idx) => {
+        return () => {
+           this.setState((prevState, props) => {
+            database.ref(`users/${auth.currentUser.uid}`).child(idx).update(
+                {lastWaterDateAsString : new Date().toISOString().slice(0,10)}
+            );
+          });
+        }
+    }
+
     SummaryDisplay = () => {
         const noPlantsInSummary = (this.state.plantEntries.length===0);
         const noPlantsMessage = "There are no plants, let's add one!"
@@ -63,6 +73,7 @@ class PlantPage extends Component {
                     key={key}
                     entry={this.state.plantEntries[key]}
                     onRemoveFromSummary={this.onRemoveFromSummary(key)}
+                    onClickWateredTodayButton={this.onClickWateredTodayButton(key)}
                 />
                 </div>
             );
