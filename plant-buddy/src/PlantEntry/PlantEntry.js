@@ -49,11 +49,11 @@ class PlantEntry extends Component {
 
         return(
             <div className="PlantItem">
-                <p><img className="IndividualPlantIcon" src={plantIcon} alt="plant buddy icon"/></p>
-                <p>{this.props.entry.plantName}</p>
-                <p>{this.props.entry.plantType}</p>
-                <p>{this.props.entry.lastWaterDateAsString}</p>
-                <p>{plantNextWaterDate.toISOString().slice(0,10)}</p>
+                <p className="ItemElementMedium"><img className="IndividualPlantIcon" src={plantIcon} alt="plant buddy icon"/></p>
+                <p className="ItemElementSmall">{this.props.entry.plantName}</p>
+                <p className="ItemElementSmall">{this.props.entry.plantType}</p>
+                <p className="ItemElementMedium">{this.props.entry.lastWaterDateAsString}</p>
+                <p className="ItemElementMedium">{plantNextWaterDate.toISOString().slice(0,10)}</p>
                 <button 
                     className="DeleteButton" 
                     onClick={
@@ -62,7 +62,7 @@ class PlantEntry extends Component {
                     Remove Plant
                 </button>
                 <button 
-                    className="DeleteButton" 
+                    className="WateredButton" 
                     onClick={
                         this.props.onClickWateredTodayButton
                     }>

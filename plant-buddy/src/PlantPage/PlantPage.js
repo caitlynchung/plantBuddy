@@ -4,6 +4,7 @@ import PlantEntry from '../PlantEntry/PlantEntry.js';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
 import './PlantPage.css';
+import '../PlantEntry/PlantEntry.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -135,11 +136,14 @@ class PlantPage extends Component {
         const noPlantsInSummary = (this.state.plantEntries.length===0);
         if (!noPlantsInSummary) {
             return (
-                <div className="SummaryDisplayHeader">
-                    <p>Picture</p>
-                    <p>Name</p>
-                    <p>Description</p>
-                    <p>Delete?</p>
+                <div className="PlantItem">
+                    <p className="ItemElementMedium">Picture</p>
+                    <p className="ItemElementSmall">Name</p>
+                    <p className="ItemElementSmall">Type</p>
+                    <p className="ItemElementMedium">Watered On</p>
+                    <p className="ItemElementMedium">Should Water</p>
+                    <p>[ Remove ]</p>
+                    <p>[ Watered? ] </p>
                 </div>
             );
         }
@@ -148,10 +152,12 @@ class PlantPage extends Component {
     render() {
         return (
             <div>
+                <h2 className="headers">My Current Buddies</h2>
                 <div className="PlantSummary">
-                    {/*<this.SummaryDisplayHeader/>*/}
+                    <this.SummaryDisplayHeader/>
                     <this.SummaryDisplay/>
                 </div>
+                <h2 className="headers">Add A Buddy</h2>
                 <div className="AddPlantSubmission">
                     <form onSubmit={this.onAddToSummary}>
                         <label>Name of your plant:
