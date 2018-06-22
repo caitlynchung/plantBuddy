@@ -18,8 +18,23 @@ class PlantEntry extends Component {
             case "fern" :
             plantIcon="/plant_fern.PNG";
             break;
+            case "succulent" :
+            plantIcon="/succulent.PNG";
+            break;
+            case "lavender" :
+            plantIcon="/lavender.PNG";
+            break;
+            case "herb" :
+            plantIcon="/herb.PNG";
+            break;
+            case "flowering_plant" :
+            plantIcon="/flowering_plant.PNG";
+            break;
+            case "orchid" :
+            plantIcon="/orchid.PNG";
+            break;
             default:
-            plantIcon="";
+            plantIcon="/buddy_icon.PNG";
         };
         
         const plantLastWateredDate = new Date(
@@ -36,7 +51,7 @@ class PlantEntry extends Component {
             <div className="PlantItem">
                 <p><img className="IndividualPlantIcon" src={plantIcon} alt="plant buddy icon"/></p>
                 <p>{this.props.entry.plantName}</p>
-                <p>{this.props.entry.plantDescription}</p>
+                <p>{this.props.entry.plantType}</p>
                 <p>{this.props.entry.lastWaterDateAsString}</p>
                 <p>{plantNextWaterDate.toISOString().slice(0,10)}</p>
                 <button 
@@ -47,7 +62,7 @@ class PlantEntry extends Component {
                     Remove Plant
                 </button>
                 <button 
-                    className="WateredTodayButton" 
+                    className="DeleteButton" 
                     onClick={
                         this.props.onClickWateredTodayButton
                     }>
