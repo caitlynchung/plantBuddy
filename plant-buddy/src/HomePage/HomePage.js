@@ -7,9 +7,12 @@ class HomePage extends Component {
         return (
             <div className="HomePage">
                 <h1>Plant Buddy</h1>
-                <p>Keep your plants happy</p>
-                <p><img className="BuddyIcon" src="/buddy_icon.PNG" alt="plant buddy icon"/></p>
-                <Link to="/plants">Check my plants</Link>
+                <p>A Plant Watering Schedule Tracker</p>
+                <p>
+                    <img className="BuddyIcon" src="/buddy_icon.PNG" alt="plant buddy icon"/>
+                    <img className="BuddyIcon" src="/plant_fail.PNG" alt="plant fail icon"/>
+                </p>
+                <Link to="/plants">Let's go check on my plants!</Link>
             </div>
         );
     }

@@ -47,11 +47,17 @@ class PlantEntry extends Component {
             plantLastWateredDate,
             Number(this.props.entry.daysBetweenWatering));
 
+        const needsWateringIcon = (
+            plantNextWaterDate <= new Date() ? "/plant_fail.PNG" : "/buddy_icon.PNG" );
+
         return(
             <div className="PlantItem">
                 <p className="ItemElementMedium"><img className="IndividualPlantIcon" src={plantIcon} alt="plant buddy icon"/></p>
                 <p className="ItemElementSmall">{this.props.entry.plantName}</p>
-                <p className="ItemElementSmall">{this.props.entry.plantType}</p>
+                <p className="ItemElementSmall"> </p>
+                <p className="ItemElementMedium">{this.props.entry.plantType}</p>
+                <p className="ItemElementSmall"> </p>
+                <p><img className="WateringPlantIcon" src={needsWateringIcon} alt="plant watering icon"/></p>
                 <p className="ItemElementMedium">{this.props.entry.lastWaterDateAsString}</p>
                 <p className="ItemElementMedium">{plantNextWaterDate.toISOString().slice(0,10)}</p>
                 <button 

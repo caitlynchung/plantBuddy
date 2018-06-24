@@ -139,7 +139,10 @@ class PlantPage extends Component {
                 <div className="PlantItem">
                     <p className="ItemElementMedium">Picture</p>
                     <p className="ItemElementSmall">Name</p>
-                    <p className="ItemElementSmall">Type</p>
+                    <p className="ItemElementSmall"> </p>
+                    <p className="ItemElementMedium">Type</p>
+                    <p className="ItemElementSmall"> </p>
+                    <p className="ItemElementMedium">Status</p>
                     <p className="ItemElementMedium">Watered On</p>
                     <p className="ItemElementMedium">Should Water</p>
                     <p>[ Remove ]</p>
