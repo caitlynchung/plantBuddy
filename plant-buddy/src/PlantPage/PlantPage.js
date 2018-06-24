@@ -119,6 +119,26 @@ class PlantPage extends Component {
         }
     };
 
+    onClickClearInputForm = (e) => {
+        e.preventDefault();
+        this.setState({
+            entryInput: {
+                plantName: '',
+                plantDescription: '',
+                plantType: 'none selected',
+                daysBetweenWatering: 1,
+                lastWaterDateAsString: '',
+                plantNameIsValid: false,
+                plantDescriptionIsValid: false,
+                plantTypeIsValid: false,
+                daysBetweenWateringIsValid: true,  //default is valid value
+                lastWaterDateAsStringIsValid: false,
+                formIsValid: false,
+                formErrors: {}
+            }
+        });
+    };
+
     SummaryDisplay = () => {
         const noPlantsInSummary = (this.state.plantEntries.length===0);
         const noPlantsMessage = "There are no plants, let's add one!"
@@ -289,6 +309,7 @@ class PlantPage extends Component {
                         </label>
                         <br />
                         <button type="submit" disabled={!this.state.entryInput.formIsValid}>Add A Plant</button>
+                        <button onClick={this.onClickClearInputForm}> Clear Form</button>
                     </form> 
                 </div>
             </div>
