@@ -86,6 +86,14 @@ class PlantPage extends Component {
         // Do not store moment object
         const entryInputToStore = this.state.entryInput;
         delete entryInputToStore.lastWaterDate;
+        // Get rid of validation data
+        delete entryInputToStore.plantNameIsValid;
+        delete entryInputToStore.plantDescriptionIsValid;
+        delete entryInputToStore.plantTypeIsValid;
+        delete entryInputToStore.daysBetweenWateringIsValid;
+        delete entryInputToStore.lastWaterDateAsStringIsValid;
+        delete entryInputToStore.formIsValid;
+        delete entryInputToStore.formErrors;
 
         database.ref(`users/${auth.currentUser.uid}`)
             .push(entryInputToStore);
