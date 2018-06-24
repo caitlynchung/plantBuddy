@@ -7,6 +7,7 @@ import './PlantPage.css';
 import '../PlantEntry/PlantEntry.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { FormErrors } from '../FormErrors/FormErrors.js';
 
 const auth = firebase.auth();
 const database = firebase.database();
@@ -51,12 +52,13 @@ class PlantPage extends Component {
         const name = target.name;
         
         this.setState((prevState, props) => {
+            this.validateField(name, value);
             const newEntryInput = prevState.entryInput;
             newEntryInput[name] = value;
             return {
                 entryInput: newEntryInput
             }
-          });
+        });
     };
 
     onDateChange = (newDate) => {
@@ -64,6 +66,7 @@ class PlantPage extends Component {
             const newEntryInput = prevState.entryInput;
             newEntryInput["lastWaterDate"] = newDate;
             newEntryInput["lastWaterDateAsString"] = newDate.format().slice(0,10);
+            this.validateField('lastWaterDateAsString', newEntryInput["lastWaterDateAsString"]);
             return {
                 entryInput: newEntryInput
             }
@@ -93,8 +96,15 @@ class PlantPage extends Component {
                 plantName: '',
                 plantDescription: '',
                 plantType: 'none selected',
-                daysBetweenWatering: 0,
-                lastWaterDateAsString: ''
+                daysBetweenWatering: 1,
+                lastWaterDateAsString: '',
+                plantNameIsValid: false,
+                plantDescriptionIsValid: false,
+                plantTypeIsValid: false,
+                daysBetweenWateringIsValid: true,  //default is valid value
+                lastWaterDateAsStringIsValid: false,
+                formIsValid: false,
+                formErrors: {}
             }
         });
     };
@@ -102,10 +112,10 @@ class PlantPage extends Component {
     onClickWateredTodayButton = (idx) => {
         return () => {
            this.setState((prevState, props) => {
-            database.ref(`users/${auth.currentUser.uid}`).child(idx).update(
-                {lastWaterDateAsString : new Date().toISOString().slice(0,10)}
-            );
-          });
+                database.ref(`users/${auth.currentUser.uid}`).child(idx).update(
+                    {lastWaterDateAsString : new Date().toISOString().slice(0,10)}
+                );
+            });
         }
     };
 
@@ -157,6 +167,62 @@ class PlantPage extends Component {
         }
     };
 
+    validateField(fieldName, value) {
+        let fieldValidationErrors = this.state.entryInput.formErrors;
+        let plantNameIsValid = this.state.entryInput.plantNameIsValid;
+        let plantDescriptionIsValid = this.state.entryInput.plantDescriptionIsValid;
+        let plantTypeIsValid = this.state.entryInput.plantTypeIsValid;
+        let daysBetweenWateringIsValid = this.state.entryInput.daysBetweenWateringIsValid;
+        let lastWaterDateAsStringIsValid = this.state.entryInput.lastWaterDateAsStringIsValid;
+
+        switch(fieldName) {
+            case 'plantName':
+                plantNameIsValid = value.length > 0;
+                fieldValidationErrors.plantName = plantNameIsValid ? '' : ' is required';
+                break;
+            case 'plantDescription':
+                plantDescriptionIsValid = value.length > 0;
+                fieldValidationErrors.plantDescription = plantDescriptionIsValid ? '': ' is required';
+                break;
+            case 'plantType':
+                plantTypeIsValid = value !== 'none selected';
+                fieldValidationErrors.plantType = plantTypeIsValid ? '': ' is required';
+                break;
+            case 'daysBetweenWatering':
+                daysBetweenWateringIsValid = value >= 1;
+                fieldValidationErrors.daysBetweenWatering = daysBetweenWateringIsValid ? '': ' should be a number greater than or equal to 1';
+                break;
+            case 'lastWaterDateAsString':
+                lastWaterDateAsStringIsValid = value.length > 0;
+                fieldValidationErrors.lastWaterDateAsString = lastWaterDateAsStringIsValid ? '': ' is required';
+                break;
+            default:
+                break;
+        };
+
+        this.setState((prevState) => {
+            const newEntryInput = prevState.entryInput;
+            newEntryInput["formErrors"] = fieldValidationErrors;
+            newEntryInput["plantNameIsValid"] = plantNameIsValid;
+            newEntryInput["plantDescriptionIsValid"] = plantDescriptionIsValid;
+            newEntryInput["plantTypeIsValid"] = plantTypeIsValid;
+            newEntryInput["daysBetweenWateringIsValid"] = daysBetweenWateringIsValid;
+            newEntryInput["lastWaterDateAsStringIsValid"] = lastWaterDateAsStringIsValid;
+
+            newEntryInput["formIsValid"] = (
+                newEntryInput.plantNameIsValid &&
+                newEntryInput.plantDescriptionIsValid &&
+                newEntryInput.plantTypeIsValid &&
+                newEntryInput.daysBetweenWateringIsValid &&
+                newEntryInput.lastWaterDateAsStringIsValid
+            );
+
+            return {
+                entryInput: newEntryInput
+            }
+        });
+    }
+
     render() {
         return (
             <div>
@@ -166,6 +232,9 @@ class PlantPage extends Component {
                     <this.SummaryDisplay/>
                 </div>
                 <h2 className="headers">Add A Buddy</h2>
+                <div>
+                    <FormErrors formErrors={this.state.entryInput.formErrors} />
+                </div>
                 <div className="AddPlantSubmission">
                     <form onSubmit={this.onAddToSummary} onKeyPress={this.onKeyPress}>
                         <label>Name of your plant:
@@ -219,7 +288,7 @@ class PlantPage extends Component {
                             />
                         </label>
                         <br />
-                        <button type="submit">Add A Plant</button>
+                        <button type="submit" disabled={!this.state.entryInput.formIsValid}>Add A Plant</button>
                     </form> 
                 </div>
             </div>
@@ -238,8 +307,15 @@ PlantPage.defaultProps = {
         plantName: '',
         plantDescription: '',
         plantType: 'none selected',
-        daysBetweenWatering: 0,
-        lastWaterDateAsString: ''
+        daysBetweenWatering: 1,
+        lastWaterDateAsString: '',
+        plantNameIsValid: false,
+        plantDescriptionIsValid: false,
+        plantTypeIsValid: false,
+        daysBetweenWateringIsValid: true, //default is valid value
+        lastWaterDateAsStringIsValid: false,
+        formIsValid: false,
+        formErrors: {}
     }
 }
 
