@@ -15,7 +15,7 @@ class PlantPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            plantEntries: props.initialvalue,
+            plantEntries: props.initialValue,
             entryInput: props.initialInput
         };
     }
@@ -83,20 +83,19 @@ class PlantPage extends Component {
         // Do not store moment object
         const entryInputToStore = this.state.entryInput;
         delete entryInputToStore.lastWaterDate;
-        // stating this explictly is the only way to clear the form
-        const emptyInput = {
-            name: '',
-            plantType: 'none selected',
-            description: '',
-            daysBetweenWatering: '',
-            lastWaterDateAsString: ''
-        };
 
         database.ref(`users/${auth.currentUser.uid}`)
             .push(entryInputToStore);
 
+        // stating this explictly is the only way to clear the form (can't just do entryInput: {})
         this.setState({
-            entryInput: emptyInput
+            entryInput: {
+                plantName: '',
+                plantDescription: '',
+                plantType: 'none selected',
+                daysBetweenWatering: 0,
+                lastWaterDateAsString: ''
+            }
         });
     };
 
@@ -130,7 +129,7 @@ class PlantPage extends Component {
             );
         });
         return plantsInSummary;
-    }
+    };
 
     SummaryDisplayHeader = () => {
         const noPlantsInSummary = (this.state.plantEntries.length===0);
@@ -150,7 +149,13 @@ class PlantPage extends Component {
                 </div>
             );
         }
-    }
+    };
+    //Prevent premature form submission with Enter key
+    onKeyPress(e) {
+        if (e.which === 13 /* Enter */) {
+          e.preventDefault();
+        }
+    };
 
     render() {
         return (
@@ -162,12 +167,12 @@ class PlantPage extends Component {
                 </div>
                 <h2 className="headers">Add A Buddy</h2>
                 <div className="AddPlantSubmission">
-                    <form onSubmit={this.onAddToSummary}>
+                    <form onSubmit={this.onAddToSummary} onKeyPress={this.onKeyPress}>
                         <label>Name of your plant:
                             <input
                                 name="plantName"
                                 type="string"
-                                value={this.state.entryInput.name}
+                                value={this.state.entryInput.plantName}
                                 onChange={this.onInputChange}
                             />
                         </label>
@@ -176,7 +181,7 @@ class PlantPage extends Component {
                             <input
                                 name="plantDescription"
                                 type="string"
-                                value={this.state.entryInput.description}
+                                value={this.state.entryInput.plantDescription}
                                 onChange={this.onInputChange}
                             />
                         </label>
@@ -184,7 +189,7 @@ class PlantPage extends Component {
                         <label>Type Of Plant:
                             <select
                                 name="plantType" 
-                                value={this.state.entryInput.type} 
+                                value={this.state.entryInput.plantType}
                                 onChange={this.onInputChange}>
                                 <option value="none selected">Choose One:</option>
                                 <option value="fern">Fern</option>
@@ -228,8 +233,14 @@ PlantPage.propTypes = {
 }
 
 PlantPage.defaultProps = {
-    initialvalue : {},
-    initialInput : {}
+    initialValue : {},
+    initialInput : {
+        plantName: '',
+        plantDescription: '',
+        plantType: 'none selected',
+        daysBetweenWatering: 0,
+        lastWaterDateAsString: ''
+    }
 }
 
 export default PlantPage;
