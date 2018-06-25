@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import PlantEntry from '../PlantEntry/PlantEntry.js';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
@@ -156,9 +155,9 @@ class PlantPage extends Component {
 
         const plantsInSummary = Object.keys(this.state.plantEntries).map((key) => {
             return (
-                <div className="PlantEntryRow">
+                <div className="PlantEntryRow" key={key}>
                 <PlantEntry 
-                    key={key}
+                    id={key.toString()}
                     entry={this.state.plantEntries[key]}
                     onRemoveFromSummary={this.onRemoveFromSummary(key)}
                     onClickWateredTodayButton={this.onClickWateredTodayButton(key)}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import './PlantEntry.css';
+import ReactTooltip from 'react-tooltip';
 
 class PlantEntry extends Component {
 
@@ -51,7 +51,10 @@ class PlantEntry extends Component {
             plantNextWaterDate <= new Date() ? "/plant_fail.PNG" : "/buddy_icon.PNG" );
 
         return(
-            <div className="PlantItem">
+            <div className="PlantItem" data-tip data-for={this.props.id}>
+                <ReactTooltip id={this.props.id} type='error'>
+                    <span>{this.props.entry.plantDescription}</span>
+                </ReactTooltip>
                 <p className="ItemElementMedium"><img className="IndividualPlantIcon" src={plantIcon} alt="plant buddy icon"/></p>
                 <p className="ItemElementSmall">{this.props.entry.plantName}</p>
                 <p className="ItemElementSmall"> </p>
