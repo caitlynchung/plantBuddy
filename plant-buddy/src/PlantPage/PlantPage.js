@@ -216,12 +216,14 @@ class PlantPage extends Component {
                 fieldValidationErrors.plantType = plantTypeIsValid ? '': ' is required';
                 break;
             case 'daysBetweenWatering':
-                daysBetweenWateringIsValid = value >= 1;
-                fieldValidationErrors.daysBetweenWatering = daysBetweenWateringIsValid ? '': ' should be a number greater than or equal to 1';
+                daysBetweenWateringIsValid = value >= 1 && value <= 365;
+                fieldValidationErrors.daysBetweenWatering = daysBetweenWateringIsValid ? '': ' should be a number between 1 and 365';
                 break;
             case 'lastWaterDateAsString':
-                lastWaterDateAsStringIsValid = value.length > 0;
-                fieldValidationErrors.lastWaterDateAsString = lastWaterDateAsStringIsValid ? '': ' is required';
+                let oldestValidDate = new Date();
+                oldestValidDate.setDate(oldestValidDate.getDate()-365);
+                lastWaterDateAsStringIsValid = value.length > 0 && (new Date(value) > oldestValidDate);
+                fieldValidationErrors.lastWaterDateAsString = lastWaterDateAsStringIsValid ? '': ' should be a valid date and within the past year';
                 break;
             default:
                 break;

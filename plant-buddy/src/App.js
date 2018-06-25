@@ -6,6 +6,9 @@ import PlantPage from './PlantPage/PlantPage.js';
 import NavigationBar from './NavigationBar/NavigationBar.js';
 
 class App extends Component {
+  componentDidMount(){
+    document.title = "Plant Buddy"
+  }
   render() {
     return (
       <div className="App">
